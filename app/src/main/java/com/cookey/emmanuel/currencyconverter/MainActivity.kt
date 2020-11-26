@@ -40,45 +40,13 @@ class MainActivity : AppCompatActivity() {
         firstHintCurrencyText = findViewById(R.id.first_txt_hint)
         secondHintCurrencyText = findViewById(R.id.second_user_input)
 
-        val firstCurrencyData = ArrayList<String>()
-        val adapterOne = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, firstCurrencyData)
-        adapterOne.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        firstSpinner.adapter = adapterOne
-
-        val secondCurrencyData = ArrayList<String>()
-        val adapterTwo = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, secondCurrencyData)
-        adapterTwo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        secondSpinner.adapter = adapterTwo
-
-
-        firstSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
-
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                firstHintCurrencyText.text = p0?.getItemAtPosition(p2).toString()
-            }
-
-        }
-
-        secondSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
-
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                secondHintCurrencyText.text = p0?.getItemAtPosition(p2).toString()
-            }
-
-        }
+        spinnerSetup()
 
 
         // setting up chart attributes
         mChart.setBackgroundColor(Color.TRANSPARENT)
         mChart.setGridBackgroundColor(Color.parseColor("#012CEA"))
         mChart.setDrawGridBackground(true)
-
 
         mChart.setDrawBorders(false)
         mChart.description.isEnabled = false
@@ -91,6 +59,52 @@ class MainActivity : AppCompatActivity() {
         setData(10, 50f)
 
     }
+
+
+    private  fun spinnerSetup(){
+
+        // Setup For the first Spinner/Drop Down
+        val firstCurrencyData = ArrayList<String>()
+        firstCurrencyData.add("PLN")
+        val adapterOne = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, firstCurrencyData)
+        adapterOne.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        firstSpinner.adapter = adapterOne
+
+        firstSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                val selectedText = p0?.getChildAt(0) as? TextView
+                selectedText?.setTextColor(Color.parseColor("#084482"))
+                firstHintCurrencyText.text = p0?.getItemAtPosition(p2).toString()
+            }
+
+        }
+
+
+        // Setup For the second Spinner/Drop Down
+        val secondCurrencyData = ArrayList<String>()
+        secondCurrencyData.add("USD")
+        val adapterTwo = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, secondCurrencyData)
+        adapterTwo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        secondSpinner.adapter = adapterTwo
+
+        secondSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                val selectedText = p0?.getChildAt(0) as? TextView
+                selectedText?.setTextColor(Color.parseColor("#084482"))
+                secondHintCurrencyText.text = p0?.getItemAtPosition(p2).toString()
+            }
+
+        }
+    }
+
 
     private fun setData( count: Int, range: Float){
 
