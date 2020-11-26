@@ -17,7 +17,7 @@
         tools:context=".MainActivity">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/currency_header"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -27,135 +27,140 @@
             android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.137" />
+            app:layout_constraintVertical_bias="0.151" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/sortby_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:contentDescription="@string/content_description_sort_by_icon"
-            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintStart_toStartOf="@+id/currency_header"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_sort"
             tools:ignore="VectorDrawableCompat" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/sign_up_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sign_up"
             android:textColor="#01B252"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="@+id/currency_header"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="@+id/imageView" />
+            app:layout_constraintStart_toEndOf="@+id/sortby_image"
+            app:layout_constraintTop_toTopOf="@+id/sortby_image" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/first_user_input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/edit_border"
             android:ems="10"
             android:inputType="number"
-            app:layout_constraintEnd_toEndOf="@+id/textView"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintEnd_toEndOf="@+id/currency_header"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/currency_header"
+            app:layout_constraintTop_toBottomOf="@+id/currency_header" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/first_txt_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:text="NGN"
-            app:layout_constraintBottom_toBottomOf="@+id/editText"
-            app:layout_constraintEnd_toEndOf="@+id/editText"
-            app:layout_constraintTop_toTopOf="@+id/editText" />
+            app:layout_constraintBottom_toBottomOf="@+id/first_user_input"
+            app:layout_constraintEnd_toEndOf="@+id/first_user_input"
+            app:layout_constraintTop_toTopOf="@+id/first_user_input" />
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/second_user_input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_border"
             android:ems="10"
             android:inputType="number"
-            android:background="@drawable/edit_border"
-            app:layout_constraintEnd_toEndOf="@+id/editText"
+            app:layout_constraintEnd_toEndOf="@+id/first_user_input"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/editText"
-            app:layout_constraintTop_toBottomOf="@+id/editText" />
+            app:layout_constraintStart_toStartOf="@+id/first_user_input"
+            app:layout_constraintTop_toBottomOf="@+id/first_user_input" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/second_txt_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:text="EUR"
-            app:layout_constraintBottom_toBottomOf="@+id/editText2"
-            app:layout_constraintEnd_toEndOf="@+id/editText2"
-            app:layout_constraintTop_toTopOf="@+id/editText2" />
+            app:layout_constraintBottom_toBottomOf="@+id/second_user_input"
+            app:layout_constraintEnd_toEndOf="@+id/second_user_input"
+            app:layout_constraintTop_toTopOf="@+id/second_user_input" />
 
         <LinearLayout
             android:id="@+id/spinner_dataset"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginTop="24dp"
             android:orientation="horizontal"
             android:weightSum="5"
-            app:layout_constraintStart_toStartOf="@+id/editText2"
-            app:layout_constraintEnd_toEndOf="@+id/editText2"
-            app:layout_constraintTop_toBottomOf="@+id/editText2">
+            app:layout_constraintEnd_toEndOf="@+id/second_user_input"
+            app:layout_constraintStart_toStartOf="@+id/second_user_input"
+            app:layout_constraintTop_toBottomOf="@+id/second_user_input">
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/spinner_one"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_marginTop="24dp"
-                />
+                android:layout_height="match_parent"
+                android:layout_weight="2" />
 
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
-                app:srcCompat="?attr/homeAsUpIndicator" />
+                app:srcCompat="@drawable/ic_swap"
+                tools:ignore="VectorDrawableCompat" />
 
             <Spinner
-                android:id="@+id/spinner2"
+                android:id="@+id/spinner_two"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                />
+                android:layout_height="match_parent"
+                android:layout_weight="2" />
         </LinearLayout>
 
         <Button
-            android:id="@+id/button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:text="Button"
-            app:layout_constraintEnd_toEndOf="@+id/editText2"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/editText2"
-            app:layout_constraintTop_toBottomOf="@+id/spinner_dataset" />
-
-        <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/convert_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="TextView"
-            app:layout_constraintEnd_toEndOf="@+id/button"
-            app:layout_constraintStart_toStartOf="@+id/button"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
+            android:backgroundTint="#01B252"
+            android:text="@string/convert_btn_txt"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="@+id/second_user_input"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/second_user_input"
+            app:layout_constraintTop_toBottomOf="@+id/spinner_dataset" />
+
+        <TextView
+            android:id="@+id/subtext_under_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/utc_txt"
+            android:textAlignment="center"
+            android:textColor="#185DFA"
+            app:layout_constraintEnd_toEndOf="@+id/convert_btn"
+            app:layout_constraintStart_toStartOf="@+id/convert_btn"
+            app:layout_constraintTop_toBottomOf="@+id/convert_btn" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -167,7 +172,7 @@
             android:padding="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5">
+            app:layout_constraintTop_toBottomOf="@+id/subtext_under_btn">
 
 
             <LinearLayout
@@ -210,22 +215,16 @@
 
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/subtext_graph"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="TextView"
-                />
+                android:text="@string/your_emailbox_txt"
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
 
 
         </LinearLayout>
-
-
-
-
-
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

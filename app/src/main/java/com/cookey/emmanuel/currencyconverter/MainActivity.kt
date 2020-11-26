@@ -2,20 +2,25 @@ package com.cookey.emmanuel.currencyconverter
 
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.data.LineScatterCandleRadarDataSet
-import com.github.mikephil.charting.renderer.LineChartRenderer
 
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var mChart: LineChart
+    lateinit var firstSpinner: Spinner
+    lateinit var secondSpinner: Spinner
+    lateinit var convertBtn: Button
+    lateinit var firstEditText: EditText
+    lateinit var seconEditText: EditText
+    lateinit var firstHintCurrencyText: TextView
+    lateinit var secondHintCurrencyText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +31,50 @@ class MainActivity : AppCompatActivity() {
         } catch (e: NullPointerException) {
         }
 
-        mChart = findViewById<LineChart>(R.id.chart)
+        mChart = findViewById(R.id.chart)
+        firstSpinner = findViewById(R.id.spinner_one)
+        secondSpinner = findViewById(R.id.spinner_two)
+        convertBtn = findViewById(R.id.convert_btn)
+        firstEditText = findViewById(R.id.first_user_input)
+        seconEditText = findViewById(R.id.second_user_input)
+        firstHintCurrencyText = findViewById(R.id.first_txt_hint)
+        secondHintCurrencyText = findViewById(R.id.second_user_input)
+
+        val firstCurrencyData = ArrayList<String>()
+        val adapterOne = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, firstCurrencyData)
+        adapterOne.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        firstSpinner.adapter = adapterOne
+
+        val secondCurrencyData = ArrayList<String>()
+        val adapterTwo = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, secondCurrencyData)
+        adapterTwo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        secondSpinner.adapter = adapterTwo
+
+
+        firstSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                firstHintCurrencyText.text = p0?.getItemAtPosition(p2).toString()
+            }
+
+        }
+
+        secondSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                secondHintCurrencyText.text = p0?.getItemAtPosition(p2).toString()
+            }
+
+        }
+
+
+        // setting up chart attributes
         mChart.setBackgroundColor(Color.TRANSPARENT)
         mChart.setGridBackgroundColor(Color.parseColor("#012CEA"))
         mChart.setDrawGridBackground(true)

@@ -3,4 +3,7 @@
     <string name="currency_calculator_title">Currency \nCalculator.</string>
     <string name="sign_up">Sign up</string>
     <string name="content_description_sort_by_icon">This is a sort by Icon</string>
+    <string name="convert_btn_txt">Convert</string>
+    <string name="your_emailbox_txt">Get rate alert straight to your emailbox</string>
+    <string name="utc_txt">Mid-market exchange rate at 13:38 UTC</string>
 </resources>
