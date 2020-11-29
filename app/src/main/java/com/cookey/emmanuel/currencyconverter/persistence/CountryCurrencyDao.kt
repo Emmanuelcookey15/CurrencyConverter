@@ -10,12 +10,14 @@ import androidx.room.Query
 interface CountryCurrencyDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertData(currencyVal: CountryCurrency)
+    fun insertData(currencyVal: Currency)
 
+    @Query("SELECT * FROM country_currency WHERE currency LIKE :currency ORDER BY currency")
+    fun selectRatesByName(currency:String): LiveData<Currency>
 
     // /** get all product **/
     @Query("SELECT * FROM  country_currency")
-    fun getAllProducts(): LiveData<List<CountryCurrency>>
+    fun getAllProducts(): LiveData<List<Currency>>
 
 
     @Query("DELETE FROM country_currency")

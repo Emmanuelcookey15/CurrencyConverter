@@ -8,4 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="spinner_style">
+        <item name="android:padding">1dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Subhead</item>
+        <item name="android:background">@drawable/gradient_spinner</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+    </style>
+
 </resources>

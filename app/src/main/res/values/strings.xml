@@ -6,4 +6,6 @@
     <string name="convert_btn_txt">Convert</string>
     <string name="your_emailbox_txt">Get rate alert straight to your emailbox</string>
     <string name="utc_txt">Mid-market exchange rate at 13:38 UTC</string>
+    <string name="eur">EUR</string>
+    <string name="default_number">0.00</string>
 </resources>

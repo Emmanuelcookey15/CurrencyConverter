@@ -3,24 +3,33 @@ package com.cookey.emmanuel.currencyconverter.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.cookey.emmanuel.currencyconverter.persistence.CountryCurrency
+import com.cookey.emmanuel.currencyconverter.persistence.Currency
 import com.cookey.emmanuel.currencyconverter.repository.CurrencyRepository
+
 
 class CurrencyViewModel constructor(application: Application): AndroidViewModel(application) {
 
-    private val repository: CurrencyRepository = CurrencyRepository(application)
+    val app = application
 
+    private val repository: CurrencyRepository = CurrencyRepository.instance
 
-    fun insertResponse(response: CountryCurrency){
-        repository.insertCurrencyData(response)
+    private val countryCurrency: LiveData<List<Currency>> = repository.fetchCurrency()
+
+    fun getUser(): LiveData<List<Currency>>? {
+        return countryCurrency
     }
 
-    fun getAllCurrencyRate(): LiveData<List<CountryCurrency>> {
-        return repository.getAllCurrencyData()
+
+    fun insertResponse(response: Currency) {
+        repository.insertCurrencyData(response, app)
+    }
+
+    fun getParticularRate(currency: String): LiveData<Currency> {
+        return repository.getRate(currency, app)
     }
 
     fun deleteCurrencyResponse(){
-        repository.deleteCurrencyData()
+        repository.deleteCurrencyData(app)
     }
 
 }

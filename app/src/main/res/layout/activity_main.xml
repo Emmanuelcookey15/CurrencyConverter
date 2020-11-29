@@ -23,7 +23,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:text="@string/currency_calculator_title"
-            android:textColor="#185DFA"
+            android:textColor="@color/mainColor"
             android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -65,6 +65,7 @@
             android:background="@drawable/edit_border"
             android:ems="10"
             android:inputType="number"
+            android:text="@string/default_number"
             app:layout_constraintEnd_toEndOf="@+id/currency_header"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/currency_header"
@@ -75,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
-            android:text="NGN"
+            android:text="@string/eur"
             app:layout_constraintBottom_toBottomOf="@+id/first_user_input"
             app:layout_constraintEnd_toEndOf="@+id/first_user_input"
             app:layout_constraintTop_toTopOf="@+id/first_user_input" />
@@ -87,6 +88,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/edit_border"
             android:ems="10"
+            android:text="@string/default_number"
             android:inputType="number"
             app:layout_constraintEnd_toEndOf="@+id/first_user_input"
             app:layout_constraintHorizontal_bias="0.0"
@@ -98,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
-            android:text="EUR"
+            android:text="@string/eur"
             app:layout_constraintBottom_toBottomOf="@+id/second_user_input"
             app:layout_constraintEnd_toEndOf="@+id/second_user_input"
             app:layout_constraintTop_toTopOf="@+id/second_user_input" />
@@ -106,7 +108,7 @@
         <LinearLayout
             android:id="@+id/spinner_dataset"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:orientation="horizontal"
             android:weightSum="5"
@@ -117,7 +119,8 @@
             <Spinner
                 android:id="@+id/spinner_one"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/spinner_style"
                 android:layout_weight="2" />
 
             <ImageView
@@ -133,6 +136,7 @@
                 android:id="@+id/spinner_two"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                style="@style/spinner_style"
                 android:layout_weight="2" />
         </LinearLayout>
 
@@ -212,6 +216,57 @@
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="01 Jan"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="01 Jan"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="01 Jan"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="01 Jan"
+                    android:textSize="12sp"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="01 Jan"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    />
+
+
+            </LinearLayout>
 
 
             <TextView
