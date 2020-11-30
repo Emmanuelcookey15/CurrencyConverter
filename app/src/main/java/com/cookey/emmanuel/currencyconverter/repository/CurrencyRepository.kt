@@ -27,6 +27,7 @@ class CurrencyRepository constructor() {
 
     var mApiService: ApiService? = null
     private val currencyLiveData = MutableLiveData<List<Currency>>()
+    var rateOfSecondCurrency = 0f
 
     companion object {
         private var currencyRepository: CurrencyRepository? = null
@@ -54,6 +55,56 @@ class CurrencyRepository constructor() {
         return currencyLiveData
     }
 
+    fun fetchCurrencyByDate(time: String, involvedCurrency: String) : Float {
+
+        val call: Call<JsonObject> = mApiService!!.getCurrencyHistory(time, "07dd79ddc7f86314dd8f391e87fdf958", involvedCurrency)
+
+        call.enqueue(object : Callback<JsonObject> {
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Log.d("ResponseHistoryStatus", "Failed: " + t.message)
+                rateOfSecondCurrency = 0f
+                t.printStackTrace();
+            }
+
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+
+                if (!response.isSuccessful){
+                    Log.d("ResponseHistoryStatus", "Unsuccessful: ${response.code()}" + response.body())
+                    if (response.message() == "null"){
+                        return
+                    }else{
+                        Log.d("ResponseHistoryStatus", "${response.message()}")
+                    }
+                    rateOfSecondCurrency = 0f
+                }
+
+                if (response.isSuccessful) {
+                    val getting = response.body()
+                    Log.d("ResponseHistoryStatus", getting.toString())
+                    val data = getting!!.get("rates").asJsonObject
+                    val allAmount = ArrayList<Float>()
+
+                    for (dataKey in data.keySet()) {
+                        allAmount.add(data.get(dataKey).asFloat)
+                    }
+
+                    if (allAmount.size > 1) {
+                        rateOfSecondCurrency = (1f * allAmount[1]) / allAmount[0]
+                    }else if(allAmount.size == 1){
+                        rateOfSecondCurrency = (1f * allAmount[0]) / allAmount[1]
+                    }else{
+                        rateOfSecondCurrency = 0f
+                    }
+                    Log.d("Currency", rateOfSecondCurrency.toString())
+                }
+
+            }
+
+        })
+
+        return rateOfSecondCurrency
+    }
+
 
     fun fetchCurrency(): LiveData<List<Currency>> {
         val currencySymbols = StringBuilder()
@@ -66,13 +117,13 @@ class CurrencyRepository constructor() {
 
         Log.d("Symbol", theSymbol)
 
-        val call: Call<JsonObject> = mApiService!!.getCurrencyRate("9355acebcf8fbd13c2da1fe720ae9ef5", theSymbol)
+        val call: Call<JsonObject> = mApiService!!.getCurrencyRate("07dd79ddc7f86314dd8f391e87fdf958", theSymbol)
 
         call.enqueue(object : Callback<JsonObject> {
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                 Log.d("ResponseStatus", "Failed: " + t.message)
                 currencyLiveData.postValue(null)
-                t.printStackTrace();
+                t.printStackTrace()
             }
 
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {

@@ -12,17 +12,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.cookey.emmanuel.currencyconverter.api.ApiService
-import com.cookey.emmanuel.currencyconverter.persistence.Currency
 import com.cookey.emmanuel.currencyconverter.viewmodel.CurrencyViewModel
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlin.coroutines.CoroutineContext
+import org.joda.time.DateTime
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,6 +38,15 @@ class MainActivity : AppCompatActivity() {
     lateinit var firstHintCurrencyText: TextView
     lateinit var secondHintCurrencyText: TextView
 
+    val x = ArrayList<Entry>()
+
+    val dt = Date()
+    val dtOrg = DateTime(dt)
+    val dtPlus6: DateTime = dtOrg.minusDays(6)
+    val dtPlus12: DateTime = dtOrg.minusDays(12)
+    val dtPlus24: DateTime = dtOrg.minusDays(24)
+    val dtPlus28: DateTime = dtOrg.minusDays(28)
+
     var firstTextField = ""
     var secondTextField = ""
 
@@ -47,13 +56,6 @@ class MainActivity : AppCompatActivity() {
     var mApiService: ApiService? = null
 
     lateinit var viewmodel: CurrencyViewModel
-
-    private var parentJob = Job()
-
-    private val coroutineContext: CoroutineContext
-        get() = parentJob + Dispatchers.Main
-
-    private val scope = CoroutineScope(coroutineContext)
 
     var firstDataBaseCurrencyValue = 0f
     var secondDataBaseCurrencyValue = 0f
@@ -81,25 +83,35 @@ class MainActivity : AppCompatActivity() {
         firstHintCurrencyText = findViewById(R.id.first_txt_hint)
         secondHintCurrencyText = findViewById(R.id.second_txt_hint)
 
-
         spinnerSetup()
 
         saveFetchedData()
 
         // setting up chart attributes
         mChart.setBackgroundColor(Color.TRANSPARENT)
-        mChart.setGridBackgroundColor(Color.parseColor("#185DFA"))
+        mChart.setGridBackgroundColor(Color.parseColor("#0075FF"))
         mChart.setDrawGridBackground(true)
 
         mChart.setDrawBorders(false)
         mChart.description.isEnabled = false
 
         mChart.setPinchZoom(false)
+        val xl = mChart.xAxis
+        xl.setAvoidFirstLastClipping(true)
+        val leftAxis = mChart.axisLeft
+        val rightAxis = mChart.axisRight
+        rightAxis.isEnabled = false
+        val l = mChart.legend
+        l.form = Legend.LegendForm.LINE
+        l.isEnabled = false
 
-        val legend = mChart.legend
-        legend.isEnabled = false
+        convertBtn.setOnClickListener {
+            firstEditText.setText(firstTextField, TextView.BufferType.EDITABLE)
+            seconEditText.setText(secondTextField, TextView.BufferType.EDITABLE)
+            setDatas(10, 50f)
+        }
 
-        setData(10, 50f)
+
 
         firstEditText.setOnTouchListener { v, event ->
 
@@ -149,9 +161,6 @@ class MainActivity : AppCompatActivity() {
                                 })
                         })
 
-
-
-
                 }
 
             }
@@ -182,18 +191,10 @@ class MainActivity : AppCompatActivity() {
                                         (amountSecond * firstDataBaseCurrencyValue) / secondDataBaseCurrencyValue
 
                                     firstTextField = amountFirst.toString()
-                                    Log.d("WHYNAN", firstTextField)
-                                    Log.d("WHYNAN", amountSecond.toString())
-                                    Log.d("WHYNAN", secondDataBaseCurrencyValue.toString())
-                                    Log.d("WHYNAN", firstDataBaseCurrencyValue.toString())
 
                                     firstEditText.setText(firstTextField, TextView.BufferType.EDITABLE)
                                 })
-
                         })
-
-
-
 
                 }
             }
@@ -209,7 +210,6 @@ class MainActivity : AppCompatActivity() {
                 viewmodel.insertResponse(it)
                 Log.d("INSERTED", it.currency)
             }
-
         })
 
     }
@@ -217,7 +217,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    private fun spinnerSetup(){
+    private fun spinnerSetup() {
 
         // Setup For the first Spinner/Drop Down
         adapterOne = MySpinnerAdapter(this, Countries)
@@ -256,23 +256,55 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun setData( count: Int, range: Float){
 
-        val yVals = ArrayList<Entry>()
-        yVals.add(Entry(0.toFloat(), 10f))
-        yVals.add(Entry(2f, 1f))
-        yVals.add(Entry(4f, 2f))
-        yVals.add(Entry(8f, 3f))
-        yVals.add(Entry(12f, 4f))
-        yVals.add(Entry(15f, 5f))
+    private fun ratesByDay(time: DateTime): String{
 
-        val set1 = LineDataSet(yVals, "Data Set1")
+        val dateFormat = SimpleDateFormat("YYYY-MM-dd",  Locale.getDefault())
+        val day = dateFormat.format(time.toCalendar(Locale.getDefault()).time)
+        Log.d("HISTORYDATA", "$day")
+        return day
+    }
+
+
+    private fun setDatas( count: Int, range: Float){
+
+        val currencyInvolved = "${firstHintCurrencyText.text.toString()},${secondHintCurrencyText.text.toString()}"
+
+        val dateFormatTextview = SimpleDateFormat("dd-MMM", Locale.getDefault())
+
+        var floatOne = 0f
+        var floatTwo = 0f
+        var floatThree = 0f
+        var floatFour = 0f
+        var floatFive = 0f
+
+        chart_txt_one.text = dateFormatTextview.format(dtOrg.toCalendar(Locale.getDefault()).time)
+        x.add(Entry(viewmodel.currencyDataBydate(ratesByDay(dtOrg), currencyInvolved), 1f))
+
+
+
+        chart_txt_two.text = dateFormatTextview.format(dtPlus6.toCalendar(Locale.getDefault()).time)
+        x.add(Entry( viewmodel.currencyDataBydate(ratesByDay(dtPlus6), currencyInvolved), 6f))
+
+
+        chart_txt_three.text = dateFormatTextview.format(dtPlus12.toCalendar(Locale.getDefault()).time)
+        x.add(Entry( viewmodel.currencyDataBydate(ratesByDay(dtPlus12), currencyInvolved), 12f))
+
+
+        chart_txt_four.text = dateFormatTextview.format(dtPlus24.toCalendar(Locale.getDefault()).time)
+        x.add(Entry( viewmodel.currencyDataBydate(ratesByDay(dtPlus24), currencyInvolved), 6f))
+
+
+        chart_txt_five.text = dateFormatTextview.format(dtPlus28.toCalendar(Locale.getDefault()).time)
+        x.add(Entry( viewmodel.currencyDataBydate(ratesByDay(dtPlus28), currencyInvolved), 28f))
+
+        val set1 = LineDataSet(x, "")
         set1.setColor(Color.TRANSPARENT)
         set1.setDrawCircles(false)
         set1.lineWidth = 3f
         set1.fillAlpha = 255
         set1.setDrawFilled(true)
-        set1.fillColor = Color.parseColor("#1a87cd")
+        set1.fillColor = Color.parseColor("#0168E3")
 
 
         val data = LineData(set1)

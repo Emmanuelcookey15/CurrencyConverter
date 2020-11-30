@@ -15,6 +15,10 @@ class CurrencyViewModel constructor(application: Application): AndroidViewModel(
 
     private val countryCurrency: LiveData<List<Currency>> = repository.fetchCurrency()
 
+    fun currencyDataBydate(time: String, involvedCurrency: String): Float {
+        return repository.fetchCurrencyByDate(time, involvedCurrency)
+    }
+
     fun getUser(): LiveData<List<Currency>>? {
         return countryCurrency
     }

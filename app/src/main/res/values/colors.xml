@@ -7,5 +7,7 @@
 
 
     <color name="shape_border_active">#788996</color>
-    <color name="mainColor">#1a87cb</color>
+    <color name="mainColor">#197ebe</color>
+    <color name="secondColor">#0168E3</color>
+    <color name="currency_green">#00D998</color>
 </resources>
