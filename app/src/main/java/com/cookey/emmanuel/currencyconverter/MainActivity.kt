@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
         convertBtn.setOnClickListener {
             firstEditText.setText(firstTextField, TextView.BufferType.EDITABLE)
             seconEditText.setText(secondTextField, TextView.BufferType.EDITABLE)
-            setDatas(10, 50f)
+            setChartData()
         }
 
 
@@ -266,11 +266,11 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun setDatas( count: Int, range: Float){
+    private fun setChartData() {
 
         val currencyInvolved = "${firstHintCurrencyText.text.toString()},${secondHintCurrencyText.text.toString()}"
 
-        val dateFormatTextview = SimpleDateFormat("dd-MMM", Locale.getDefault())
+        val dateFormatTextview = SimpleDateFormat("dd MMM", Locale.getDefault())
 
         var floatOne = 0f
         var floatTwo = 0f
@@ -311,7 +311,7 @@ class MainActivity : AppCompatActivity() {
         data.setDrawValues(false)
 
 
-        mChart.setData(data)
+        mChart.data = data
     }
 
 
