@@ -91,7 +91,8 @@ class CurrencyRepository constructor() {
                     if (allAmount.size > 1) {
                         rateOfSecondCurrency = (1f * allAmount[1]) / allAmount[0]
                     }else if(allAmount.size == 1){
-                        rateOfSecondCurrency = (1f * allAmount[0]) / allAmount[1]
+                        // When the two adapter has the same currency symbol
+                        rateOfSecondCurrency = (1f * allAmount[0]) / allAmount[0]
                     }else{
                         rateOfSecondCurrency = 0f
                     }

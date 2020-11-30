@@ -299,7 +299,7 @@ class MainActivity : AppCompatActivity() {
         x.add(Entry( viewmodel.currencyDataBydate(ratesByDay(dtPlus28), currencyInvolved), 28f))
 
         val set1 = LineDataSet(x, "")
-        set1.setColor(Color.TRANSPARENT)
+        set1.color = Color.TRANSPARENT
         set1.setDrawCircles(false)
         set1.lineWidth = 3f
         set1.fillAlpha = 255
