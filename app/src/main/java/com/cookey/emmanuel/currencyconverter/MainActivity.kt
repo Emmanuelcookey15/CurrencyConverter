@@ -74,6 +74,7 @@ class MainActivity : AppCompatActivity() {
         viewmodel = ViewModelProvider(this).get(CurrencyViewModel::class.java)
 
 
+
         mChart = findViewById(R.id.chart)
         firstSpinner = findViewById(R.id.spinner_one)
         secondSpinner = findViewById(R.id.spinner_two)
