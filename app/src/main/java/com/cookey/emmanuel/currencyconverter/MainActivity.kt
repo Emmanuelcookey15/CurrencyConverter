@@ -141,26 +141,37 @@ class MainActivity : AppCompatActivity() {
                 if (p0.toString().isNotEmpty() && firstTextFieldIsClicked) {
                     firstTextField = p0.toString()
 
+                    var count = viewmodel.countInDB()
+                    if (isConnectedToTheInternet()){
+                        try {
+                            var amountFirst = p0.toString().toFloat()
+                            viewmodel.getParticularRate(firstHintCurrencyText.text.toString())
+                                .observe(this@MainActivity, Observer {
+                                    if (it.currentValue != null) {
+                                        firstDataBaseCurrencyValue = it.currentValue!!
+                                        viewmodel.getParticularRate(secondHintCurrencyText.text.toString())
+                                            .observe(this@MainActivity, Observer {
+                                                secondDataBaseCurrencyValue = it.currentValue!!
+                                                var amountSecond =
+                                                    (amountFirst * secondDataBaseCurrencyValue) / firstDataBaseCurrencyValue
 
-                    try {
-                        var amountFirst = p0.toString().toFloat()
-                        viewmodel.getParticularRate(firstHintCurrencyText.text.toString())
-                            .observe(this@MainActivity, Observer {
-                                firstDataBaseCurrencyValue = it.currentValue!!
-                                viewmodel.getParticularRate(secondHintCurrencyText.text.toString())
-                                    .observe(this@MainActivity, Observer {
-                                        secondDataBaseCurrencyValue = it.currentValue!!
-                                        var amountSecond =
-                                            (amountFirst * secondDataBaseCurrencyValue) / firstDataBaseCurrencyValue
+                                                secondTextField = amountSecond.toString()
 
-                                        secondTextField = amountSecond.toString()
+                                                seconEditText.setText(secondTextField, TextView.BufferType.EDITABLE)
+                                            })
+                                    }else{
+                                        saveFetchedData()
+                                    }
 
-                                        seconEditText.setText(secondTextField, TextView.BufferType.EDITABLE)
-                                    })
-                            })
-                    } catch(ex: NumberFormatException){ // handle your exception
-                        ex.printStackTrace()
+                                })
+                        } catch(ex: NumberFormatException){ // handle your exception
+                            ex.printStackTrace()
+                        }
+
+                    }else{
+                        Toast.makeText(this@MainActivity, "Internet Connect needed", Toast.LENGTH_LONG).show()
                     }
+
 
                 }
 
@@ -181,28 +192,39 @@ class MainActivity : AppCompatActivity() {
                 if (p0.toString().isNotEmpty() && secondTextFieldIsClicked) {
                     secondTextField = p0.toString()
 
-                    try {
-                        var amountSecond = p0.toString().toFloat()
-                        viewmodel.getParticularRate(firstHintCurrencyText.text.toString())
-                            .observe(this@MainActivity, Observer {
-                                firstDataBaseCurrencyValue = it.currentValue!!
-                                viewmodel.getParticularRate(secondHintCurrencyText.text.toString())
-                                    .observe(this@MainActivity, Observer {
-                                        secondDataBaseCurrencyValue = it.currentValue!!
-                                        var amountFirst =
-                                            (amountSecond * firstDataBaseCurrencyValue) / secondDataBaseCurrencyValue
 
-                                        firstTextField = amountFirst.toString()
+                    var count = viewmodel.countInDB()
+                    if (isConnectedToTheInternet()) {
+                        try {
+                            var amountSecond = p0.toString().toFloat()
+                            viewmodel.getParticularRate(firstHintCurrencyText.text.toString())
+                                .observe(this@MainActivity, Observer {
+                                    if (it.currentValue != null) {
+                                        firstDataBaseCurrencyValue = it.currentValue!!
+                                        viewmodel.getParticularRate(secondHintCurrencyText.text.toString())
+                                            .observe(this@MainActivity, Observer {
+                                                secondDataBaseCurrencyValue = it.currentValue!!
+                                                var amountFirst =
+                                                    (amountSecond * firstDataBaseCurrencyValue) / secondDataBaseCurrencyValue
 
-                                        firstEditText.setText(
-                                            firstTextField,
-                                            TextView.BufferType.EDITABLE
-                                        )
-                                    })
-                            })
-                    } catch(ex: NumberFormatException){ // handle your exception
-                        ex.printStackTrace()
+                                                firstTextField = amountFirst.toString()
+
+                                                firstEditText.setText(
+                                                    firstTextField,
+                                                    TextView.BufferType.EDITABLE
+                                                )
+                                            })
+                                    }else{
+                                        saveFetchedData()
+                                    }
+                                })
+                        } catch(ex: NumberFormatException){ // handle your exception
+                            ex.printStackTrace()
+                        }
+                    }else{
+                        Toast.makeText(this@MainActivity, "Internet Connect needed", Toast.LENGTH_LONG).show()
                     }
+
 
                 }
             }
@@ -213,34 +235,27 @@ class MainActivity : AppCompatActivity() {
 
     fun saveFetchedData() {
 
-        viewmodel.getUser()?.observe(this, Observer { list ->
+        if (isConnectedToTheInternet()){
+
+            viewmodel.getUser()?.observe(this, Observer { list ->
 
 
-            val count = viewmodel.countInDB()
+                val count = viewmodel.countInDB()
 
-                when {
-                    count > 0 -> {
-                        list.forEach {
-                            viewmodel.updateResponse(it.currentValue!!, it.id!!)
-                        }
-                    }
-                    count == null -> {
-                        list.forEach {
-                            viewmodel.insertResponse(it)
-                            Log.d("INSERTED", it.currency)
-                        }
-
-                    }
-                    else -> {
-                        list.forEach {
-                            viewmodel.insertResponse(it)
-                            Log.d("INSERTED", it.currency)
-                        }
-                    }
+                list.forEach {
+                    viewmodel.insertResponse(it)
+                    viewmodel.updateResponse(it.currentValue!!, it.id!!)
                 }
 
 
-        })
+
+
+            })
+        }else{
+            Toast.makeText(this@MainActivity, "Internet Connect needed", Toast.LENGTH_LONG).show()
+        }
+
+
 
 
     }
