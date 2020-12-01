@@ -141,25 +141,30 @@ class MainActivity : AppCompatActivity() {
                 if (p0.toString().isNotEmpty() && firstTextFieldIsClicked) {
                     firstTextField = p0.toString()
 
-                    var amountFirst = p0.toString().toFloat()
-                    viewmodel.getParticularRate(firstHintCurrencyText.text.toString())
-                        .observe(this@MainActivity, Observer {
-                            firstDataBaseCurrencyValue = it.currentValue!!
-                            viewmodel.getParticularRate(secondHintCurrencyText.text.toString())
-                                .observe(this@MainActivity, Observer {
-                                    secondDataBaseCurrencyValue = it.currentValue!!
-                                    var amountSecond =
-                                        (amountFirst * secondDataBaseCurrencyValue) / firstDataBaseCurrencyValue
 
-                                    secondTextField = amountSecond.toString()
-                                    Log.d("WHYNAN", secondTextField)
-                                    Log.d("WHYNAN", amountFirst.toString())
-                                    Log.d("WHYNAN", secondDataBaseCurrencyValue.toString())
-                                    Log.d("WHYNAN", firstDataBaseCurrencyValue.toString())
+                    try {
+                        var amountFirst = p0.toString().toFloat()
+                        viewmodel.getParticularRate(firstHintCurrencyText.text.toString())
+                            .observe(this@MainActivity, Observer {
+                                firstDataBaseCurrencyValue = it.currentValue!!
+                                viewmodel.getParticularRate(secondHintCurrencyText.text.toString())
+                                    .observe(this@MainActivity, Observer {
+                                        secondDataBaseCurrencyValue = it.currentValue!!
+                                        var amountSecond =
+                                            (amountFirst * secondDataBaseCurrencyValue) / firstDataBaseCurrencyValue
 
-                                    seconEditText.setText(secondTextField, TextView.BufferType.EDITABLE)
-                                })
-                        })
+                                        secondTextField = amountSecond.toString()
+                                        Log.d("WHYNAN", secondTextField)
+                                        Log.d("WHYNAN", amountFirst.toString())
+                                        Log.d("WHYNAN", secondDataBaseCurrencyValue.toString())
+                                        Log.d("WHYNAN", firstDataBaseCurrencyValue.toString())
+
+                                        seconEditText.setText(secondTextField, TextView.BufferType.EDITABLE)
+                                    })
+                            })
+                    } catch(ex: NumberFormatException){ // handle your exception
+                        ex.printStackTrace()
+                    }
 
                 }
 
@@ -180,21 +185,28 @@ class MainActivity : AppCompatActivity() {
                 if (p0.toString().isNotEmpty() && secondTextFieldIsClicked) {
                     secondTextField = p0.toString()
 
-                    var amountSecond = p0.toString().toFloat()
-                    viewmodel.getParticularRate(firstHintCurrencyText.text.toString())
-                        .observe(this@MainActivity, Observer {
-                            firstDataBaseCurrencyValue = it.currentValue!!
-                            viewmodel.getParticularRate(secondHintCurrencyText.text.toString())
-                                .observe(this@MainActivity, Observer {
-                                    secondDataBaseCurrencyValue = it.currentValue!!
-                                    var amountFirst =
-                                        (amountSecond * firstDataBaseCurrencyValue) / secondDataBaseCurrencyValue
+                    try {
+                        var amountSecond = p0.toString().toFloat()
+                        viewmodel.getParticularRate(firstHintCurrencyText.text.toString())
+                            .observe(this@MainActivity, Observer {
+                                firstDataBaseCurrencyValue = it.currentValue!!
+                                viewmodel.getParticularRate(secondHintCurrencyText.text.toString())
+                                    .observe(this@MainActivity, Observer {
+                                        secondDataBaseCurrencyValue = it.currentValue!!
+                                        var amountFirst =
+                                            (amountSecond * firstDataBaseCurrencyValue) / secondDataBaseCurrencyValue
 
-                                    firstTextField = amountFirst.toString()
+                                        firstTextField = amountFirst.toString()
 
-                                    firstEditText.setText(firstTextField, TextView.BufferType.EDITABLE)
-                                })
-                        })
+                                        firstEditText.setText(
+                                            firstTextField,
+                                            TextView.BufferType.EDITABLE
+                                        )
+                                    })
+                            })
+                    } catch(ex: NumberFormatException){ // handle your exception
+                        ex.printStackTrace()
+                    }
 
                 }
             }
@@ -306,10 +318,8 @@ class MainActivity : AppCompatActivity() {
         set1.setDrawFilled(true)
         set1.fillColor = Color.parseColor("#0168E3")
 
-
         val data = LineData(set1)
         data.setDrawValues(false)
-
 
         mChart.data = data
     }

@@ -57,7 +57,7 @@ class CurrencyRepository constructor() {
 
     fun fetchCurrencyByDate(time: String, involvedCurrency: String) : Float {
 
-        val call: Call<JsonObject> = mApiService!!.getCurrencyHistory(time, "07dd79ddc7f86314dd8f391e87fdf958", involvedCurrency)
+        val call: Call<JsonObject> = mApiService!!.getCurrencyHistory(time, "55f29ac84d1740406f71c2904fd66d1a", involvedCurrency)
 
         call.enqueue(object : Callback<JsonObject> {
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
@@ -118,7 +118,7 @@ class CurrencyRepository constructor() {
 
         Log.d("Symbol", theSymbol)
 
-        val call: Call<JsonObject> = mApiService!!.getCurrencyRate("07dd79ddc7f86314dd8f391e87fdf958", theSymbol)
+        val call: Call<JsonObject> = mApiService!!.getCurrencyRate("55f29ac84d1740406f71c2904fd66d1a", theSymbol)
 
         call.enqueue(object : Callback<JsonObject> {
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
