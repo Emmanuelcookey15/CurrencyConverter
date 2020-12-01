@@ -65,6 +65,8 @@
             android:background="@drawable/edit_border"
             android:ems="10"
             android:inputType="number"
+            android:nextFocusUp="@id/first_user_input"
+            android:nextFocusLeft="@id/first_user_input"
             android:hint="@string/default_number"
             app:layout_constraintEnd_toEndOf="@+id/currency_header"
             app:layout_constraintHorizontal_bias="0.0"

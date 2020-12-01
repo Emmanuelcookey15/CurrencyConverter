@@ -28,6 +28,14 @@ class CurrencyViewModel constructor(application: Application): AndroidViewModel(
         repository.insertCurrencyData(response, app)
     }
 
+    fun updateResponse(currentValue: Float, id: Int){
+        repository.updateAllRate(currentValue, id, app)
+    }
+
+    fun countInDB(): Int{
+        return repository.ratesCountInDB(app)
+    }
+
     fun getParticularRate(currency: String): LiveData<Currency> {
         return repository.getRate(currency, app)
     }

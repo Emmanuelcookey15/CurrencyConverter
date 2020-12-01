@@ -10,10 +10,7 @@ import com.cookey.emmanuel.currencyconverter.persistence.Currency
 import com.cookey.emmanuel.currencyconverter.persistence.CountryCurrencyDao
 import com.cookey.emmanuel.currencyconverter.persistence.CurrencyDatabase
 import com.google.gson.JsonObject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -208,6 +205,22 @@ class CurrencyRepository constructor() {
     fun getRate(currency: String, application: Application): LiveData<Currency>{
         val currencyData = initializeDatabse(application).selectRatesByName(currency)
         return currencyData
+    }
+
+    fun updateAllRate(currentValue: Float, id: Int, application: Application) {
+        scope.launch(Dispatchers.IO)  {
+            initializeDatabse(application).updateRates(currentValue, id)
+        }
+    }
+
+    fun ratesCountInDB(application: Application): Int {
+        var count = 0
+        scope.launch(Dispatchers.Main) {
+            withContext(Dispatchers.IO) {
+                count  = initializeDatabse(application).ratesCount()
+            }
+        }
+        return count
     }
 
     fun deleteCurrencyData(application: Application){

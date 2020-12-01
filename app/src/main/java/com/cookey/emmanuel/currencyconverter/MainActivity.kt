@@ -154,10 +154,6 @@ class MainActivity : AppCompatActivity() {
                                             (amountFirst * secondDataBaseCurrencyValue) / firstDataBaseCurrencyValue
 
                                         secondTextField = amountSecond.toString()
-                                        Log.d("WHYNAN", secondTextField)
-                                        Log.d("WHYNAN", amountFirst.toString())
-                                        Log.d("WHYNAN", secondDataBaseCurrencyValue.toString())
-                                        Log.d("WHYNAN", firstDataBaseCurrencyValue.toString())
 
                                         seconEditText.setText(secondTextField, TextView.BufferType.EDITABLE)
                                     })
@@ -218,11 +214,34 @@ class MainActivity : AppCompatActivity() {
     fun saveFetchedData() {
 
         viewmodel.getUser()?.observe(this, Observer { list ->
-            list.forEach {
-                viewmodel.insertResponse(it)
-                Log.d("INSERTED", it.currency)
-            }
+
+
+            val count = viewmodel.countInDB()
+
+                when {
+                    count > 0 -> {
+                        list.forEach {
+                            viewmodel.updateResponse(it.currentValue!!, it.id!!)
+                        }
+                    }
+                    count == null -> {
+                        list.forEach {
+                            viewmodel.insertResponse(it)
+                            Log.d("INSERTED", it.currency)
+                        }
+
+                    }
+                    else -> {
+                        list.forEach {
+                            viewmodel.insertResponse(it)
+                            Log.d("INSERTED", it.currency)
+                        }
+                    }
+                }
+
+
         })
+
 
     }
 
@@ -273,7 +292,6 @@ class MainActivity : AppCompatActivity() {
 
         val dateFormat = SimpleDateFormat("YYYY-MM-dd",  Locale.getDefault())
         val day = dateFormat.format(time.toCalendar(Locale.getDefault()).time)
-        Log.d("HISTORYDATA", "$day")
         return day
     }
 
